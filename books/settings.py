@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'django.contrib.sites',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,6 +42,18 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'pages.apps.PagesConfig',
 
+    #third party
+    'allauth',
+    'allauth.account'
+
+]
+AUTHENTICATION_BACKENDS=[
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+EMAIL_BACKEND=[
+    'django.core.mail.backensd.console.EmailBackend',
 ]
 
 MIDDLEWARE = [
@@ -122,6 +135,21 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIR=[os.path.join(BASE_DIR,('static')),]
+STATIC_ROOT=os.path.join(BASE_DIR,'staticfiles')
+
+STATICFILES_FINDER=[
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+                 ]
+
 AUTH_USER_MODEL='users.Customuser'
 LOGIN_REDIRECT_URL='home'
-LOGOUT_REDIRECT_URL='home'
+ACCOUNT_LOGOUT_URL='home'
+#CRISPY_TEMPLATE_PACK='bootstrap4'
+SITE_ID= 1
+
+AUTH_USERNAME_REQUIRED=False
+ACCOUNT_AUTHENTICATION_METHOD='email'
+ACCOUNT_EMAIL_REQUIRED=True
+ACCOUNT_UNIQUE_EMAIL=True
